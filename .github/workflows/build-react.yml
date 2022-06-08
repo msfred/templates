@@ -3,8 +3,13 @@ on:
   workflow_call:
   
     inputs:
+
       artifact:
         required: true
+        type: string
+
+      path:
+        default: .
         type: string
 
 jobs:
@@ -23,6 +28,7 @@ jobs:
       #    cache: npm
 
       # Install dependencies, build, run unit tests
+      - run: cd ${{ inputs.path }}
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
