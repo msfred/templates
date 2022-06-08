@@ -1,0 +1,47 @@
+# Sample Reusable Workflow for building a React app
+on:
+  workflow_call:
+  
+    inputs:
+
+      artifact:
+        required: true
+        type: string
+        
+      environment:
+        required: true
+        type: string
+        
+      webAppName:
+        required: true
+        type: string
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code from calling repository
+        uses: actions/checkout@v2
+        
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          # Artifact name
+          name: ${{ inputs.artifact }}
+          # Destination path
+          path: ${{ inputs.artifact }}
+          
+      - name: Debug
+        run: dir
+        
+#      - name: Azure WebApp
+#        uses: Azure/webapps-deploy@v2
+#        with:
+#          # Name of the Azure Web App
+#          app-name: ${{ inputs.webAppName }}
+#          # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
+#          publish-profile: # optional
+#          # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
+#          package: ./${{ inputs.artifact }}
