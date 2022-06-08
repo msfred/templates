@@ -29,19 +29,22 @@ jobs:
 
       # Install dependencies, build, run unit tests
       - run: |
-          pwd
-          dir
           cd ${{ inputs.path }}
-          pwd
-          dir
           npm ci
+
+      - run: |
+          cd ${{ inputs.path }}
           npm run build --if-present
+
+      - run: |
+          cd ${{ inputs.path }}
           npm test
           dir
+          dir build
 
       # Publish the build artifact
       - name: Public build artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: ${{ inputs.artifact }}
-          path: .
+          path: ${{ inputs.path }}/build
