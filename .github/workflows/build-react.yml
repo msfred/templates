@@ -28,19 +28,22 @@ jobs:
       #    cache: npm
 
       # Install dependencies, build, run unit tests
-      - run: |
+      - name: Install Dependencies
+        run: |
           cd ${{ inputs.path }}
           npm ci
 
-      - run: |
+      - name: Build Project
+        run: |
           cd ${{ inputs.path }}
           npm run build --if-present
-
-      - run: |
-          cd ${{ inputs.path }}
-          npm test
           dir
           dir build
+
+      - name: Run Tests
+        run: |
+          cd ${{ inputs.path }}
+          npm test
 
       # Publish the build artifact
       - name: Public build artifact
