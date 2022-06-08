@@ -20,19 +20,13 @@ jobs:
       # Checks out the code from the repository of the calling workflow
       - uses: actions/checkout@v3
 
-      # Install the Node.js dependencies, uses caching to save time
-      #- name: Use Node.js ${{ matrix.node-version }}
-      #  uses: actions/setup-node@v3
-      #  with:
-      #    node-version: 16.x
-      #    cache: npm
-
-      # Install dependencies, build, run unit tests
+      # Install dependencies
       - name: Install Dependencies
         run: |
           cd ${{ inputs.path }}
           npm ci
 
+      # Build
       - name: Build Project
         run: |
           cd ${{ inputs.path }}
@@ -40,13 +34,14 @@ jobs:
           dir
           dir build
 
+      # Run unit tests
       - name: Run Tests
         run: |
           cd ${{ inputs.path }}
           npm test
 
-      # Publish the build artifact
-      - name: Public build artifact
+      # Publish build artifact
+      - name: Publish Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: ${{ inputs.artifact }}
